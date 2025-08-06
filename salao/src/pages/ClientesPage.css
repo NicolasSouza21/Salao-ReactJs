@@ -64,3 +64,25 @@
 .data-table th {
   background-color: #f8f9fa;
 }
+
+/* ✅ ALTERAÇÃO AQUI: Estilos para o botão de exclusão */
+.btn-delete {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #dc3545; /* Vermelho para indicar perigo/exclusão */
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #c82333; /* Vermelho mais escuro ao passar o mouse */
+}
+
+/* ✨ MELHORIA ADICIONAL: Adiciona um container para os botões de ação na tabela */
+.actions-cell {
+    display: flex;
+    gap: 0.5rem; /* Espaçamento entre os botões */
+}

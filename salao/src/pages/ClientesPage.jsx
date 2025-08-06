@@ -1,10 +1,11 @@
 // Local do arquivo: src/pages/ClientesPage.jsx
 
 import React, { useState, useEffect } from 'react';
-import { getAllClientes, createCliente } from '../../services/apiService.js';
-import './ClientesPage.css'; // Criaremos este CSS a seguir
+// ✅ CORREÇÃO AQUI: O caminho foi ajustado de '../../services/apiService.js' para o correto '../services/apiService.js'.
+import { getAllClientes, createCliente, deleteCliente } from '../services/apiService.js';
+import './ClientesPage.css';
 
-// Componente para o formulário (dentro do mesmo arquivo para simplificar)
+// O componente de formulário não precisa de alterações.
 const ClienteForm = ({ onClienteAdicionado }) => {
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -17,9 +18,7 @@ const ClienteForm = ({ onClienteAdicionado }) => {
         e.preventDefault();
         setError('');
         setSuccess('');
-
         const novoCliente = { nome, telefone, dataNascimento, observacoes };
-
         try {
             const response = await createCliente(novoCliente);
             setSuccess(`Cliente "${response.data.nome}" cadastrado com sucesso!`);
@@ -39,7 +38,6 @@ const ClienteForm = ({ onClienteAdicionado }) => {
             <h2>Cadastrar Novo Cliente</h2>
             {error && <p className="form-error">{error}</p>}
             {success && <p className="form-success">{success}</p>}
-            
             <div className="form-row">
                 <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome do Cliente" required />
                 <input type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} placeholder="Telefone" required />
@@ -77,8 +75,19 @@ function ClientesPage() {
     }, []);
 
     const handleClienteAdicionado = (novoCliente) => {
-        // Adiciona o novo cliente à lista sem precisar buscar tudo de novo.
         setClientes(listaAtual => [...listaAtual, novoCliente]);
+    };
+
+    const handleDeleteCliente = async (clienteId) => {
+        if (window.confirm('Tem certeza que deseja excluir este cliente?')) {
+            try {
+                await deleteCliente(clienteId);
+                setClientes(listaAtual => listaAtual.filter(cliente => cliente.id !== clienteId));
+            } catch (err) {
+                alert('Erro ao excluir cliente.');
+                console.error(err);
+            }
+        }
     };
 
     if (error) return <div className="page-error">{error}</div>;
@@ -104,20 +113,20 @@ function ClientesPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {clientes.length === 0 ? (
-                                <tr>
-                                    <td colSpan="4">Nenhum cliente cadastrado.</td>
+                            {clientes.map(cliente => (
+                                <tr key={cliente.id}>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.telefone}</td>
+                                    <td>{cliente.dataNascimento ? new Date(cliente.dataNascimento).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) : 'N/A'}</td>
+                                    <td>
+                                        <div className="actions-cell">
+                                            <button className="btn-delete" onClick={() => handleDeleteCliente(cliente.id)}>
+                                                Excluir
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
-                            ) : (
-                                clientes.map(cliente => (
-                                    <tr key={cliente.id}>
-                                        <td>{cliente.nome}</td>
-                                        <td>{cliente.telefone}</td>
-                                        <td>{cliente.dataNascimento ? new Date(cliente.dataNascimento).toLocaleDateString() : 'N/A'}</td>
-                                        <td>{/* Botões de Editar/Excluir no futuro */}</td>
-                                    </tr>
-                                ))
-                            )}
+                            ))}
                         </tbody>
                     </table>
                 )}

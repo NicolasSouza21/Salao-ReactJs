@@ -1,4 +1,3 @@
-// Local do arquivo: src/services/apiService.js
 
 import axios from 'axios';
 

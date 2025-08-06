@@ -1,8 +1,8 @@
-// Local do arquivo: src/components/ClienteList.js
+// Local do arquivo: src/components/ClienteList.jsx
 
 import React, { useState, useEffect } from 'react';
 // ✅ CORREÇÃO AQUI: O nome do arquivo 'apiService' agora está com 'a' minúsculo, exatamente como o nome do arquivo.
-import { getAllClientes } from '../../services/apiService';
+import { getAllClientes } from '../services/apiService';
 
 function ClienteList() {
     const [clientes, setClientes] = useState([]);

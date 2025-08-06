@@ -1,7 +1,8 @@
 // Local do arquivo: src/pages/ServicosPage.jsx
 
 import React, { useState, useEffect } from 'react';
-import { getAllServicos, createServico } from '../../services/apiService.js'; // Usaremos as funções que já existem no apiService
+// ✅ CORREÇÃO AQUI: Padronizamos a importação para usar 'apiService.js' com 'a' minúsculo.
+import { getAllServicos, createServico } from '../services/apiService.js';
 // Usaremos o mesmo CSS da página de clientes para manter a consistência
 import './ClientesPage.css'; 
 
