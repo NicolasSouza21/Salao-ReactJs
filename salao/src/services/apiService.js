@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 // ✅ ALTERAÇÃO AQUI: Cria uma instância do Axios com a URL base da nossa API.
@@ -23,10 +22,20 @@ export const deleteCliente = (id) => apiClient.delete(`/clientes/${id}`);
 // ✨ FUNÇÕES PARA SERVIÇOS ✨
 // ======================================================
 export const getAllServicos = () => apiClient.get('/servicos');
-// ... aqui podemos adicionar as outras funções para serviços no futuro ...
+export const createServico = (servicoData) => apiClient.post('/servicos', servicoData);
+export const updateServico = (id, servicoData) => apiClient.put(`/servicos/${id}`, servicoData);
+export const deleteServico = (id) => apiClient.delete(`/servicos/${id}`);
+
 
 // ======================================================
 // ✨ FUNÇÕES PARA PRODUTOS ✨
 // ======================================================
 export const getAllProdutos = () => apiClient.get('/produtos');
 // ... e aqui as funções para produtos ...
+
+
+// ======================================================
+// ✅ NOVA SEÇÃO: FUNÇÕES PARA ATENDIMENTOS
+// ======================================================
+export const getAllAtendimentos = () => apiClient.get('/atendimentos');
+export const createAtendimento = (atendimentoData) => apiClient.post('/atendimentos', atendimentoData);

@@ -2,37 +2,51 @@
 
 package com.seusalao.sistemadesalao.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference; 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * ✅ ENTIDADE CLIENTE
  * Representa um cliente do salão no banco de dados.
  */
-@Entity // ✨ ALTERAÇÃO AQUI: Informa ao JPA que esta classe é uma entidade do banco de dados.
-@Table(name = "clientes") // ✨ ALTERAÇÃO AQUI: Define o nome da tabela no banco como "clientes".
-@Data // ✨ ALTERAÇÃO AQUI: Anotação do Lombok para gerar getters, setters, toString, etc. automaticamente.
+@Entity 
+@Table(name = "clientes") 
+@Data 
 public class Cliente {
 
-    @Id // ✨ ALTERAÇÃO AQUI: Marca este campo como a chave primária da tabela.
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✨ ALTERAÇÃO AQUI: Configura o ID para ser autoincrementado pelo banco de dados.
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
-    @Column(nullable = false, length = 100) // ✨ ALTERAÇÃO AQUI: Campo não pode ser nulo e tem tamanho máximo de 100 caracteres.
+    @Column(nullable = false, length = 100) 
     private String nome;
 
-    @Column(unique = true, length = 20) // ✨ ALTERAÇÃO AQUI: Telefone deve ser único, para evitar clientes duplicados.
+    @Column(unique = true, length = 20) 
     private String telefone;
 
-    @Column(name = "data_nascimento") // ✨ ALTERAÇÃO AQUI: Define o nome da coluna e armazena a data de nascimento para os alertas.
+    @Column(name = "data_nascimento") 
     private LocalDate dataNascimento;
 
-    @Column(columnDefinition = "TEXT") // ✨ ALTERAÇÃO AQUI: Campo de texto sem limite de tamanho para observações.
+    @Column(columnDefinition = "TEXT") 
     private String observacoes;
+
+    
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="cliente-atendimento") // ✨ ALTERAÇÃO AQUI: Damos um nome à referência
+    private List<Atendimento> atendimentos;
+
+    // ✨ ALTERAÇÃO AQUI: Adicionamos a nova relação entre Cliente e Agendamento
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="cliente-agendamento") // Damos um nome único para esta referência
+    private List<Agendamento> agendamentos;
 }

@@ -1,14 +1,13 @@
 // Local do arquivo: src/components/Navbar.jsx
 
 import React from 'react';
-import { Link } from 'react-router-dom'; // ✨ ALTERAÇÃO AQUI: Importa o componente Link para navegação.
-import './Navbar.css'; // Importaremos um CSS para estilizar a navbar.
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        {/* O Link funciona como uma tag <a>, mas para rotas internas */}
         <Link to="/">Salão da Cassiana</Link>
       </div>
       <ul className="navbar-links">
@@ -18,7 +17,13 @@ function Navbar() {
         <li>
           <Link to="/clientes">Clientes</Link>
         </li>
-        {/* No futuro, adicionaremos links para Serviços, Produtos, Caixa, etc. */}
+        <li>
+          <Link to="/servicos">Serviços</Link>
+        </li>
+        {/* ✨ ALTERAÇÃO AQUI: Adicionamos o link para a nova página de Atendimentos. */}
+        <li>
+          <Link to="/atendimentos">Atendimentos</Link>
+        </li>
       </ul>
     </nav>
   );

@@ -1,8 +1,8 @@
 // Local do arquivo: src/pages/ServicosPage.jsx
 
 import React, { useState, useEffect } from 'react';
-// ✅ CORREÇÃO AQUI: Padronizamos a importação para usar 'apiService.js' com 'a' minúsculo.
-import { getAllServicos, createServico } from '../services/apiService.js';
+// ✨ ALTERAÇÃO AQUI: Importamos a função de deletar que criamos no passo anterior.
+import { getAllServicos, createServico, deleteServico } from '../services/apiService.js';
 // Usaremos o mesmo CSS da página de clientes para manter a consistência
 import './ClientesPage.css'; 
 
@@ -58,6 +58,23 @@ function ServicosPage() {
         }
     };
 
+    // ✅ CORREÇÃO AQUI: Adicionamos a função para lidar com a exclusão de um serviço.
+    const handleDeleteServico = async (servicoId) => {
+        // Pedimos confirmação ao usuário antes de prosseguir.
+        if (window.confirm('Tem certeza que deseja excluir este serviço?')) {
+            try {
+                // Chamamos a função da API para deletar
+                await deleteServico(servicoId);
+                // Atualizamos o estado local para remover o serviço da lista, sem precisar recarregar a página.
+                setServicos(listaAtual => listaAtual.filter(servico => servico.id !== servicoId));
+            } catch (err) {
+                // Em caso de erro, exibimos um alerta.
+                alert('Erro ao excluir serviço.');
+                console.error(err);
+            }
+        }
+    };
+
     if (error) return <div className="page-error">{error}</div>;
 
     return (
@@ -106,7 +123,14 @@ function ServicosPage() {
                                         <td>{servico.nome}</td>
                                         <td>{servico.descricao}</td>
                                         <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(servico.valor)}</td>
-                                        <td>{/* Botões de Ações Futuras */}</td>
+                                        {/* ✅ CORREÇÃO AQUI: Adicionamos a célula de ações com o botão de excluir. */}
+                                        <td>
+                                            <div className="actions-cell">
+                                                <button className="btn-delete" onClick={() => handleDeleteServico(servico.id)}>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))
                             )}
