@@ -35,7 +35,14 @@ export const getAllProdutos = () => apiClient.get('/produtos');
 
 
 // ======================================================
-// ✅ NOVA SEÇÃO: FUNÇÕES PARA ATENDIMENTOS
+// ✨ FUNÇÕES PARA ATENDIMENTOS ✨
 // ======================================================
 export const getAllAtendimentos = () => apiClient.get('/atendimentos');
 export const createAtendimento = (atendimentoData) => apiClient.post('/atendimentos', atendimentoData);
+
+
+// ======================================================
+// ✅ NOVA SEÇÃO: FUNÇÕES PARA AGENDAMENTOS
+// ======================================================
+export const getAllAgendamentos = () => apiClient.get('/agendamentos');
+export const createAgendamento = (agendamentoData) => apiClient.post('/agendamentos', agendamentoData);

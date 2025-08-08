@@ -2,8 +2,8 @@
 
 package com.seusalao.sistemadesalao.model;
 
-// ✨ ALTERAÇÃO AQUI: Importamos a anotação que resolve o problema.
-import com.fasterxml.jackson.annotation.JsonBackReference;
+// ✅ CORREÇÃO AQUI: Removemos a importação desnecessária.
+// import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,16 +27,12 @@ public class Atendimento {
 
     // --- RELACIONAMENTOS ---
 
-    // ✅ CORREÇÃO AQUI: Adicionamos @JsonBackReference.
-    // Esta anotação é o par da @JsonManagedReference que colocamos no Cliente.
-    // Ela diz: "Ao converter este Atendimento para JSON, inclua os dados do Cliente,
-    // mas não a lista de atendimentos que está dentro dele". Isso quebra o loop.
+    // ✅ CORREÇÃO AQUI: Removemos a anotação @JsonBackReference.
+    // O sistema de DTOs agora controla a serialização, tornando esta anotação obsoleta.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
-    @JsonBackReference // Esta é a linha que resolve o erro 500.
     private Cliente cliente;
 
-    // A relação com Serviço não causa loop, então não precisa de anotações especiais.
     @ManyToMany
     @JoinTable(
         name = "atendimento_servicos",

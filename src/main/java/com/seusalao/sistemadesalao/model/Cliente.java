@@ -2,7 +2,7 @@
 
 package com.seusalao.sistemadesalao.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference; 
+import com.fasterxml.jackson.annotation.JsonIgnore; // ✨ ALTERAÇÃO AQUI: Importamos a anotação correta.
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,14 +39,15 @@ public class Cliente {
 
     @Column(columnDefinition = "TEXT") 
     private String observacoes;
-
     
+    // ✅ CORREÇÃO AQUI: Adicionamos @JsonIgnore para quebrar o loop.
+    // Isso diz à API: "Ao buscar a lista de clientes, não inclua a lista de atendimentos de cada um".
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="cliente-atendimento") // ✨ ALTERAÇÃO AQUI: Damos um nome à referência
+    @JsonIgnore
     private List<Atendimento> atendimentos;
 
-    // ✨ ALTERAÇÃO AQUI: Adicionamos a nova relação entre Cliente e Agendamento
+    // ✅ CORREÇÃO AQUI: Adicionamos @JsonIgnore aqui também pelo mesmo motivo.
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="cliente-agendamento") // Damos um nome único para esta referência
+    @JsonIgnore
     private List<Agendamento> agendamentos;
 }

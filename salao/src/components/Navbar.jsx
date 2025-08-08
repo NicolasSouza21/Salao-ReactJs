@@ -20,9 +20,13 @@ function Navbar() {
         <li>
           <Link to="/servicos">Serviços</Link>
         </li>
-        {/* ✨ ALTERAÇÃO AQUI: Adicionamos o link para a nova página de Atendimentos. */}
+        {/* ✨ ALTERAÇÃO AQUI: Renomeamos para "Histórico" para maior clareza. */}
         <li>
-          <Link to="/atendimentos">Atendimentos</Link>
+          <Link to="/atendimentos">Histórico de Vendas</Link> 
+        </li>
+        {/* ✅ NOVO LINK: Adicionamos o link para a nova página de Agenda. */}
+        <li>
+          <Link to="/agenda">Agenda</Link>
         </li>
       </ul>
     </nav>
